@@ -73,7 +73,7 @@ class LeetCodeTests {
 	@Test
 	void testPermuteUnique() {
 		int[] nums = {1, 2, 2, 2};
-		//1 2 2 2 3
+		//1 2 2 2
 		//2 1 2 2
 		//2 2 1 2
 		//2 2 1 1
@@ -86,19 +86,21 @@ class LeetCodeTests {
 		if (stack.size() == nums.length) {
 			lists.add(new ArrayList<>(stack));
 		}
-		for (int i = 0; i < nums.length; i++) {
+		for (int i = 0; i < nums.length;) {
 			if (!dp[i]) {
 				stack.add(nums[i]);
+
 				dp[i] = true;
 				permuteUniqueHelper(lists, stack, nums, dp);
 				dp[i] = false;
 				stack.pop();
-
 				int j = i + 1;
 				while (j < nums.length && nums[i] == nums[j]) {
 					j++;
 				}
 				i = j;
+			} else {
+				i++;
 			}
 		}
 	}
