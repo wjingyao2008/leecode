@@ -160,6 +160,58 @@ class LeetCodeTests {
 		return list;
 	}
 
+	//96. Unique Binary Search Trees
+	//https://leetcode.cn/problems/unique-binary-search-trees/
+	// a better solution is dp(left)*dp(right) since the content is irrelevant,the numbers are always n-th number
+	public int numTrees(int n) {
+		return numTreesHelper(1, n);
+	}
+
+	private int numTreesHelper(int start, int end) {
+		if (start > end) {
+			return 1;
+		}
+		if (start == end) {
+			return 1;
+		}
+		int num = 0;
+		for (int i = start; i <= end; i++) {
+			int left = numTreesHelper(start, i - 1);
+			 //2 3
+			int right = numTreesHelper(i + 1, end);
+			num += left * right;
+		}
+		return num;
+	}
+
+	//131. Palindrome Partitioning
+	//https://leetcode.cn/problems/palindrome-partitioning/
+//	public List<List<String>> partition(String s) {
+//
+//
+//
+//		partitionHelper( s, 0, s.length() - 1);
+//		return lists;
+//	}
+//
+//	private List<List<String>> partitionHelper(String s, int start, int end) {
+//
+//
+//		for (int i = start; i <= end; i++) {
+//
+//			List<List<String>> left = partitionHelper(lists, s, start, i - 1);
+//			List<List<String>> right = partitionHelper(lists, s, i + 1, end);
+//
+//			for (List<String> l : left) {
+//				for (List<String> r : right) {
+//
+//
+//				}
+//			}
+//		}
+//
+//	}
+
 
 	@Test
 	void contextLoads() {
