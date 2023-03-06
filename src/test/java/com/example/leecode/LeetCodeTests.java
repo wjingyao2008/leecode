@@ -2,10 +2,7 @@ package com.example.leecode;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * Dynamic Programming Leecode
@@ -110,6 +107,58 @@ class LeetCodeTests {
 //	public List<Integer> diffWaysToCompute(String expression) {
 //
 //	}
+
+	public class TreeNode {
+		int val;
+		TreeNode left;
+		TreeNode right;
+		TreeNode() {}
+		TreeNode(int val) { this.val = val; }
+		TreeNode(int val, TreeNode left, TreeNode right) {
+			this.val = val;
+			this.left = left;
+			this.right = right;
+		}
+	}
+	//95. Unique Binary Search Trees II
+	//https://leetcode.cn/problems/unique-binary-search-trees-ii/
+	public List<TreeNode> generateTrees(int n) {
+
+		List<TreeNode> ans = new ArrayList<TreeNode>();
+		if (n == 0) {
+			return ans;
+		}
+		return getAns(1, n);
+
+	}
+
+	private List<TreeNode> getAns(int start, int end) {
+		List<TreeNode> list = new ArrayList<>();
+		if (start > end) {
+			list.add(null);
+			return list;
+		}
+		if (start == end) {
+			list.add(new TreeNode(start));
+			return list;
+		}
+		for (int i = start; i <= end; i++) {
+
+			List<TreeNode> left = getAns(start, i - 1);
+			List<TreeNode> right = getAns(i + 1, end);
+
+			for (TreeNode l : left) {
+				for (TreeNode r : right) {
+					TreeNode mid = new TreeNode(i);
+					list.add(mid);
+					mid.left = l;
+					mid.right = r;
+				}
+			}
+
+		}
+		return list;
+	}
 
 
 	@Test
