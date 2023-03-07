@@ -217,6 +217,11 @@ class LeetCodeTests {
 	//Output: 4
 	//Explanation: there are four ways to make up the amount:
 	//	 DP[[i] = DP[i] + DP[i-k]
+	//在求装满背包有几种方案的时候，认清遍历顺序是非常关键的。
+	//
+	//**如果求组合数就是外层for循环遍历物品，内层for遍历背包**。
+	//
+	//**如果求排列数就是外层for遍历背包，内层for循环遍历物品**。
 	public int change(int amount, int[] coins) {
 		int[] dp = new int[amount + 1];
 		dp[0] = 1;
@@ -227,6 +232,23 @@ class LeetCodeTests {
 			}
 		}
 		return dp[amount];
+	}
+
+	//63. Unique Paths II
+	//https://leetcode.cn/problems/unique-paths-ii/submissions/
+	public int uniquePathsWithObstacles(int[][] obstacleGrid) {
+		int[] dp=new int[obstacleGrid[0].length];
+		dp[0]=1;
+		for(int[] row: obstacleGrid) {
+			for(int i=0;i<row.length;i++){
+				if(row[i]==1) {
+					dp[i]=0;
+				} else if(i!=0) {
+					dp[i]+=dp[i-1];
+				}
+			}
+		}
+		return dp[obstacleGrid[0].length-1];
 	}
 
 	@Test
