@@ -251,10 +251,26 @@ class LeetCodeTests {
 		return dp[obstacleGrid[0].length-1];
 	}
 
+	//343. Integer Break
+	//https://leetcode.cn/problems/integer-break/submissions/
+	public int integerBreak(int n) {
+		//define dp[i] ,given integer n , maximum product of it.
+		int[] dp=new int[n+1];
+		dp[0]=1;
+		dp[1]=1;
+		for(int i=2;i<=n;i++) {
+			for(int j=1;j<i;j++) {
+				dp[i]=Math.max(dp[i],j*dp[i-j]);
+				dp[i] = Math.max(dp[i], j * (i - j));
+			}
+		}
+		return dp[n];
+	}
+
 	@Test
 	void contextLoads() {
-		int[] ints = {1, 2, 5};
-		int change = change(5, ints);
+
+		int change = integerBreak(4);
 		System.out.println(change);
 	}
 
