@@ -212,10 +212,28 @@ class LeetCodeTests {
 //
 //	}
 
+	//	https://leetcode.cn/problems/coin-change-ii/
+	//Input: amount = 5, coins = [1,2,5]
+	//Output: 4
+	//Explanation: there are four ways to make up the amount:
+	//	 DP[[i] = DP[i] + DP[i-k]
+	public int change(int amount, int[] coins) {
+		int[] dp = new int[amount + 1];
+		dp[0] = 1;
+		for (int coin : coins) {
+			//DP[3]=DP[3]+DP[1]; 凑够3这个数，我们需要使用1个2的coin，那么只需要在3方法的基础上，加上dp[3-2]=dp[1]的数加上来
+			for (int i = coin; i <= amount; i++) {
+				dp[i] += dp[i - coin];
+			}
+		}
+		return dp[amount];
+	}
 
 	@Test
 	void contextLoads() {
-		System.out.println("11");
+		int[] ints = {1, 2, 5};
+		int change = change(5, ints);
+		System.out.println(change);
 	}
 
 }
