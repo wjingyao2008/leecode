@@ -295,7 +295,6 @@ class LeetCodeTests {
 			for (int t2 = 1; t2 <= s2.length(); t2++) {
 				dp[t2][t1] = dp[t2 - 1][t1] && s3.charAt(t2 + t1 - 1) == s2.charAt(t2 - 1);
 				dp[t2][t1] = dp[t2][t1] || (dp[t2][t1 - 1] && s3.charAt(t2 + t1 - 1) == s1.charAt(t1 - 1));
-
 			}
 		}
 		return dp[s2.length()][s1.length()];
