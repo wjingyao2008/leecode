@@ -275,9 +275,8 @@ class LeetCodeTests {
 	}
 
 
-	// for s3,each character is fixed,you can choose neither from s1 or s2
-	// if both can choose then
-	//
+
+	//https://leetcode.cn/problems/interleaving-string/
 	public boolean isInterleave(String s1, String s2, String s3) {
 		if (s1.length() + s2.length() != s3.length()) {
 			return false;
@@ -300,9 +299,32 @@ class LeetCodeTests {
 		return dp[s2.length()][s1.length()];
 	}
 
+	//follow up,how to using o of space s2
+	//the matrix used once
+	public boolean isInterleave2(String s1, String s2, String s3) {
+		if (s1.length() + s2.length() != s3.length()) {
+			return false;
+		}
+		boolean[] dp = new boolean[s2.length() + 1];
+		dp[0] = true;
+
+		for (int w = 1; w <= s2.length(); w++) {
+			dp[w] = dp[w-1] && s3.charAt(w - 1) == s2.charAt(w - 1);
+		}
+
+		for (int h = 1; h <= s1.length(); h++) {
+			dp[0] = dp[0] && s3.charAt(h - 1) == s1.charAt(h - 1);
+			for (int w = 1; w <= s2.length(); w++) {
+				dp[w] = dp[w] && s1.charAt(h - 1) == s3.charAt(h + w - 1);
+				dp[w] = dp[w] || (dp[w - 1] && s2.charAt(w - 1) == s3.charAt(h + w - 1));
+			}
+		}
+		return dp[s2.length()];
+	}
+
 	@Test
 	void testIsInterleave() {
-		Assert.assertTrue(isInterleave("aabcc" ,
+		Assert.assertTrue(isInterleave2("aabcc" ,
 				"dbbca" ,
 				"aadbbcbcac"));
 	}
