@@ -321,11 +321,34 @@ class LeetCodeTests {
 		}
 		return dp[s2.length()];
 	}
-
 	@Test
 	void testIsInterleave() {
-		Assert.assertTrue(isInterleave2("aabcc" ,
-				"dbbca" ,
-				"aadbbcbcac"));
+		Assert.assertTrue(isInterleave2("aabcc" , "dbbca" , "aadbbcbcac"));
 	}
+	//only move n-1 time
+	//https://leetcode.cn/problems/rotate-function/
+	public int maxRotateFunction(int[] nums) {
+		int dp = 0;
+		int total = 0;
+		for (int i = 0; i < nums.length; i++) {
+			dp += i * nums[i];
+			total += nums[i];
+		}
+		int max = dp;
+		int j = nums.length - 1;
+		for (int i = 1; i < nums.length; i++) {
+			dp += total - nums.length * nums[j];
+			j--;
+			max = Math.max(max, dp);
+		}
+		return max;
+	}
+
+	@Test
+	void testMaxRotateFunction() {
+		int[] ints = {1,2,3,4,5,6,7,8,9,10};
+		int i = maxRotateFunction(ints);
+		Assert.assertTrue(i==330);
+	}
+
 }
