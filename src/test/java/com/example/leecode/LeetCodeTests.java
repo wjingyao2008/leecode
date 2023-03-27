@@ -1,5 +1,6 @@
 package com.example.leecode;
 
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
@@ -256,7 +257,6 @@ class LeetCodeTests {
 	public int integerBreak(int n) {
 		//define dp[i] ,given integer n , maximum product of it.
 		int[] dp=new int[n+1];
-		dp[0]=1;
 		dp[1]=1;
 		for(int i=2;i<=n;i++) {
 			for(int j=1;j<i;j++) {
@@ -274,4 +274,37 @@ class LeetCodeTests {
 		System.out.println(change);
 	}
 
+
+	// for s3,each character is fixed,you can choose neither from s1 or s2
+	// if both can choose then
+	//
+	public boolean isInterleave(String s1, String s2, String s3) {
+		if (s1.length() + s2.length() != s3.length()) {
+			return false;
+		}
+		boolean[][] dp = new boolean[s2.length() + 1][s1.length() + 1];
+		dp[0][0] = true;
+		for (int j = 1; j <= s1.length(); j++) {
+			dp[0][j] = dp[0][j - 1] && s3.charAt(j - 1) == s1.charAt(j - 1);
+		}
+		for (int i = 1; i <= s2.length(); i++) {
+			dp[i][0] = dp[i-1][0] && s3.charAt(i - 1) == s2.charAt(i - 1);
+		}
+
+		for (int t1 = 1; t1 <= s1.length(); t1++) {
+			for (int t2 = 1; t2 <= s2.length(); t2++) {
+				dp[t2][t1] = dp[t2 - 1][t1] && s3.charAt(t2 + t1 - 1) == s2.charAt(t2 - 1);
+				dp[t2][t1] = dp[t2][t1] || (dp[t2][t1 - 1] && s3.charAt(t2 + t1 - 1) == s1.charAt(t1 - 1));
+
+			}
+		}
+		return dp[s2.length()][s1.length()];
+	}
+
+	@Test
+	void testIsInterleave() {
+		Assert.assertTrue(isInterleave("aabcc" ,
+				"dbbca" ,
+				"aadbbcbcac"));
+	}
 }
