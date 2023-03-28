@@ -3,6 +3,7 @@ package com.example.leecode;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
+import java.awt.geom.QuadCurve2D;
 import java.util.*;
 
 /**
@@ -351,4 +352,74 @@ class LeetCodeTests {
 		Assert.assertTrue(i==330);
 	}
 
+	//1 2 3 4 , 123 234 1234
+	//        5, 345 2345 12345
+	public int numberOfArithmeticSlices(int[] nums) {
+
+		int[] diff = new int[nums.length];
+		diff[0] = 0;
+		for (int i = 1; i < nums.length; i++) {
+			diff[i] = nums[i] - nums[i - 1];
+		}
+		int dp = 0;
+		int total = 0;
+		for (int i = 2; i < nums.length; i++) {
+			if (diff[i] == diff[i - 1]) {
+				dp = (dp == 0) ? 1 : dp + 2;
+				total += dp;
+			}
+		}
+		return total;
+	}
+
+	//give s, s*2+1, s*3+1, return ordered n;
+	public int calculate(int s, int n) {
+		LinkedList <Integer> q1 = new LinkedList <>();
+		q1.add(s);
+		LinkedList <Integer> q2 = new LinkedList <>();
+		q2.add(s);
+		int c = 0;
+		int target = s;
+		while (c < n) {
+			Integer v1 = q1.peek();
+			Integer v2 = q2.peek();
+			c++;
+			if (v1 < v2) {
+				q1.removeFirst();
+				target = v1;
+			} else if (v1 > v2) {
+				q2.removeFirst();
+				target = v2;
+			} else {
+				q1.removeFirst();
+				q2.removeFirst();
+				target = v1;
+			}
+			q1.addLast(target * 2 + 1);
+			q2.addLast(target * 3 + 1);
+			System.out.println("target:" + target);
+
+		}
+		return target;
+
+	}
+
+	@Test
+	void testNumberOfArithmeticSlices() {
+		int[] ints = {1,2,3,4};
+		int i = numberOfArithmeticSlices(ints);
+		Assert.assertTrue(i==3);
+	}
+
+	@Test
+	void testCalculate() {
+        //1 3 4 7 9 10 13
+		Assert.assertTrue(calculate(1,1)==1);
+		Assert.assertEquals(calculate(1, 2), 3);
+		Assert.assertEquals(calculate(1, 3), 4);
+		Assert.assertEquals(calculate(1, 4), 7);
+		Assert.assertEquals(calculate(1, 5), 9);
+		Assert.assertEquals(calculate(1, 6), 10);
+		Assert.assertEquals(calculate(1, 7), 13);
+	}
 }
