@@ -365,7 +365,7 @@ class LeetCodeTests {
 		int total = 0;
 		for (int i = 2; i < nums.length; i++) {
 			if (diff[i] == diff[i - 1]) {
-				dp = (dp == 0) ? 1 : dp + 2;
+				dp = (dp == 0) ? 1 : dp + 1;
 				total += dp;
 			}
 		}
@@ -397,8 +397,6 @@ class LeetCodeTests {
 			}
 			q1.addLast(target * 2 + 1);
 			q2.addLast(target * 3 + 1);
-			System.out.println("target:" + target);
-
 		}
 		return target;
 
