@@ -402,6 +402,49 @@ class LeetCodeTests {
 
 	}
 
+	public class ListNode {
+       int val;
+       ListNode next;
+       ListNode() {}
+       ListNode(int val) { this.val = val; }
+       ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+    }
+
+    //[1,2,3,4,5]
+	//https://leetcode.cn/problems/rotate-list/
+	//有个简单的解法是直接连接成环.
+	public ListNode rotateRight(ListNode head, int k) {
+		int count = 1;
+		ListNode ptr = head;
+		if (head == null || head.next == null) {
+			return head;
+		}
+		while (ptr.next != null) {
+			count++;
+			ptr = ptr.next;
+		}
+		k = k % count;
+		if (k == 0) {
+			return head;
+		}
+		ptr = head;
+		int m = count - k; //3-1=2
+		//1
+		//->1
+		while (m-- > 1) {
+			ptr = ptr.next;
+		}
+		//ptr -> 2
+		ListNode newHead = ptr.next;
+		ptr.next = null;
+		ptr = newHead;
+		while (ptr.next != null) {
+			ptr = ptr.next;
+		}
+		ptr.next = head;
+		return newHead;
+	}
+
 	@Test
 	void testNumberOfArithmeticSlices() {
 		int[] ints = {1,2,3,4};
