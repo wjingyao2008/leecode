@@ -445,6 +445,45 @@ class LeetCodeTests {
 		return newHead;
 	}
 
+	//https://leetcode.cn/problems/insert-interval/
+	public int[][] insert(int[][] intervals, int[] newInterval) {
+		List<int[]> ansList = new ArrayList<>();
+		boolean merged = false;
+		if (intervals.length == 0) {
+			return new int[][]{newInterval};
+		}
+		for (int i = 0; i < intervals.length; i++) {
+			int[] s = intervals[i];
+			//no overlap
+			if (s[0] > newInterval[1]) {
+				if (merged == false) {
+					ansList.add(newInterval);
+					merged = true;
+				}
+				ansList.add(s);
+				continue;
+			}
+			if (s[1] < newInterval[0]) {
+				ansList.add(s);
+				continue;
+			}
+			newInterval[0] = Math.min(s[0], newInterval[0]);
+			newInterval[1] = Math.max(s[1], newInterval[1]);
+			if (merged == false) {
+				merged = true;
+				ansList.add(newInterval);
+			}
+		}
+		if (merged == false) {
+			ansList.add(newInterval);
+		}
+		int[][] m = new int[ansList.size()][];
+		for (int i = 0; i < ansList.size(); ++i) {
+			m[i] = ansList.get(i);
+		}
+		return m;
+	}
+
 	@Test
 	void testNumberOfArithmeticSlices() {
 		int[] ints = {1,2,3,4};
