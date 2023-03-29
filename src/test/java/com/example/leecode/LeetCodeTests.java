@@ -3,7 +3,6 @@ package com.example.leecode;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
-import java.awt.geom.QuadCurve2D;
 import java.util.*;
 
 /**
@@ -502,4 +501,32 @@ class LeetCodeTests {
 		Assert.assertEquals(calculate(1, 6), 10);
 		Assert.assertEquals(calculate(1, 7), 13);
 	}
+//	https://leetcode.cn/problems/remove-duplicates-from-sorted-list-ii
+	public ListNode deleteDuplicates(ListNode head) {
+		ListNode start = new ListNode(0, head);
+		ListNode cur = start;
+
+		//3 4 4
+		while (cur.next != null && cur.next.next != null) {
+			//if the next 2 node share same
+			if (cur.next.val == cur.next.next.val) {
+				cur.next = skip(cur.next, cur.next.next);
+			} else {
+				cur = cur.next;
+			}
+		}
+		return start.next;
+	}
+
+	// 3 3 4
+	// 3 3 null
+	private ListNode skip(ListNode s1, ListNode s2) {
+		int x = s1.val;
+		while (s2 != null && s2.val == x) {
+			s2 = s2.next;
+		}
+		return s2;
+	}
+
+
 }
